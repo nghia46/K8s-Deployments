@@ -1,0 +1,1 @@
+A simple way to setup asp.net service cumunication with rabbitmq through NodePort

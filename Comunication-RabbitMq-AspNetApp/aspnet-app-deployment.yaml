@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnet-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aspnet-app
+  template:
+    metadata:
+      labels:
+        app: aspnet-app
+    spec:
+      containers:
+      - name: dockercicd
+        image: nghialoe/dockercicd:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: RabbitMQ__Host
+          value: "amqp://rabbitmq-service"
+        - name: RabbitMQ__Username
+          value: "guest"
+        - name: RabbitMQ__Password
+          value: "guest"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aspnet-app-service
+spec:
+  selector:
+    app: aspnet-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
