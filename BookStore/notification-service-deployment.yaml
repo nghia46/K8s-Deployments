@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bookstore-borrowing-app-deployment
+  name: bookstore-notification-app-deployment
 spec:
-  replicas: 5
+  replicas: 2 # increase the number of replicas to increase the speed of the notification
   selector:
     matchLabels:
-      app: borrowing-service-app
+      app: notification-service-app
   template:
     metadata:
       labels:
-        app: borrowing-service-app
+        app: notification-service-app
     spec:
       containers:
-      - name: borrowing-service
-        image: nghialoe/borrowing-service:latest
+      - name: notification-service
+        image: nghialoe/notification-service:latest
         ports:
         - containerPort: 80
         env:
@@ -32,10 +32,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: borrowing-service-lb
+  name: notification-service-lb
 spec:
   selector:
-    app: borrowing-service-app
+    app: notification-service-app
   ports:
     - protocol: TCP
       port: 80
